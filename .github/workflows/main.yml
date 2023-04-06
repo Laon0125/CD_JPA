@@ -49,8 +49,6 @@ jobs:
           port: ${{ secrets.GCP_SSH_PORT }}
           script: whoami
             
-
-
       - name: GCP 인스턴스 접속 및 애플리케이션 실행 # (5)
         uses: appleboy/ssh-action@v0.1.9
         with:
@@ -63,4 +61,5 @@ jobs:
             sudo docker stop $(sudo docker ps -a -q) 
             sudo docker rm $(sudo docker ps -a -q) 
             sudo docker pull jinu0125/kookbeetest
+            sudo docker run -d --network host -e MYSQL_ROOT_PASSWORD=1234 --name my_sql -v /var/lib/mysql:/var/lib/mysql mysql:latest --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
             sudo docker run -d -p 80:8080 --name kookbeetest jinu0125/kookbeetest
