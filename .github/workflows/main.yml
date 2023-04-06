@@ -58,8 +58,7 @@ jobs:
           port: ${{ secrets.GCP_SSH_PORT }}
           script: |
             sudo su
-            sudo docker stop $(sudo docker ps -a -q) 
-            sudo docker rm $(sudo docker ps -a -q) 
+            sudo docker stop $(sudo docker ps -a | grep kookbeetest | awk '{print $1}') 
+            sudo docker rm $(sudo docker ps -a | grep kookbeetest | awk '{print $1}') 
             sudo docker pull jinu0125/kookbeetest
-            sudo docker run -d --network host -e MYSQL_ROOT_PASSWORD=1234 --name my_sql -v /var/lib/mysql:/var/lib/mysql mysql:latest --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
             sudo docker run -d -p 80:8080 --name kookbeetest jinu0125/kookbeetest
